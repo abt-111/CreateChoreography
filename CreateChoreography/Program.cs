@@ -25,6 +25,7 @@ class MainClass
             i++;
         }
 
+        // Saisie du nombre de répétition
         Console.WriteLine("Entrez le nombre de fois que les pas doivent être exécutés");
         repeatNumber = Convert.ToInt32(Console.ReadLine());
 
@@ -35,6 +36,11 @@ class MainClass
         {
             choregraphy += moves[j] + " ";
         }
-        Console.WriteLine(choregraphy);
+
+        // Répétition
+        for(int j = 0; j < repeatNumber; j++)
+        {
+            Console.WriteLine(choregraphy);
+        }
     }
 }
