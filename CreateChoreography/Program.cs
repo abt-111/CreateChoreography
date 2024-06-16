@@ -1,58 +1,15 @@
 ﻿class MainClass
 {
+    public const int MAX_MOVES = 32;
     public static void Main(string[] args)
     {
-        bool isNotLetterOrDigit;
-        int i = 0; // Pour parcourir moves dans la boucle while
         int repeatNumber = 1;
-        string userInput = "";
         string choregraphy = "";
-        string[] moves = new string[32];
+        string[] moves = new string[MAX_MOVES];
 
         Console.WriteLine("Crées ta chorégraphie (" + moves.Length + " pas max)\n");
 
-        while(i < moves.Length && userInput != "done")
-        {
-            Console.Write($"Entres le pas n°{i} (ou \"done\" pour terminer) : ");
-            // Saisie de l'utilisateur
-            userInput = Console.ReadLine();
-
-            // * On vérifie si la valeur est vide ou composé uniquement de ' '
-            if (userInput.Trim() != string.Empty)
-            {
-                isNotLetterOrDigit = false;
-
-                foreach (char splitUserInput in userInput.Trim())
-                {
-                    // ** On vérifie si chaque éléments de la chaîne n'est pas une lettre ou un chiffre
-                    if (!(Char.IsLetterOrDigit(splitUserInput)))
-                    {
-                        Console.WriteLine("Le pas ne peut être composé que de lettre et de chiffre\n");
-                        isNotLetterOrDigit = true;
-                        break;
-                    }
-                }
-
-                // ** Si c'est le cas on passe à l'itération suivante
-                if (isNotLetterOrDigit)
-                {
-                    continue;
-                }
-            }
-            // * Si c'est le cas on passe à l'itération suivante
-            else
-            {
-                Console.WriteLine("Le pas doit être composé d'au moins une lettre\n");
-                continue;
-            }
-
-            // Si l'utilisateur n'a pas taper "done"
-            if (userInput != "done")
-            {
-                moves[i] = userInput;
-                i++;
-            }
-        }
+        SetAllMoves(moves);
 
         // Saisie du nombre de répétition
         Console.Write("Entres le nombre de répétition des pas : ");
@@ -61,15 +18,63 @@
         // Affichage de la chorégraphie
         Console.WriteLine("\nTa chorégraphie");
 
-        for (int j = 0; j < i; j++)
+        for (int i = 0; i < moves.Length && moves[i] != "done"; i++)
         {
-            choregraphy += moves[j] + " ";
+            choregraphy += moves[i] + " ";
         }
 
         // Répétition
-        for(int j = 0; j < repeatNumber; j++)
+        for(int i = 0; i < repeatNumber; i++)
         {
             Console.WriteLine(choregraphy);
+        }
+    }
+
+    public static bool ValidUserInput(string userInput)
+    {
+        // On vérifie si la valeur est vide ou composé uniquement de ' '
+        if (userInput.Trim() != string.Empty)
+        {
+            foreach (char splitUserInput in userInput.Trim())
+            {
+                // On vérifie si chaque éléments de la chaîne n'est pas une lettre ou un chiffre
+                if (!(Char.IsLetterOrDigit(splitUserInput)))
+                {
+                    Console.WriteLine("Le pas ne peut être composé que de lettres et de chiffres\n");
+                    return false;
+                }
+            }
+        }
+        else
+        {
+            Console.WriteLine("Le pas doit être composé d'au moins une lettre\n");
+            return false;
+        }
+
+        return true;
+    }
+
+    public static void SetAllMoves(string[] moves)
+    {
+        bool isValid;
+        int index = 0;
+        string userInput = "";
+
+        while (index < moves.Length && userInput != "done")
+        {
+            Console.Write($"Entres le pas n°{index} (ou \"done\" pour terminer) : ");
+
+            // Saisie de l'utilisateur
+            userInput = Console.ReadLine();
+
+            // Vérification de la saisie de l'utilisateur
+            isValid = ValidUserInput(userInput);
+
+            // Si la saisie de l'utilisateur est non valide on ne fait rien d'autre
+            if (!isValid) continue;
+
+            moves[index] = userInput;
+            index++;
         }
     }
 }
