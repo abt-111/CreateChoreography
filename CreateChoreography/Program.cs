@@ -1,11 +1,9 @@
 ﻿class MainClass
 {
-    public const int MAX_MOVES = 2;
+    public const int MAX_MOVES = 32;
     public static void Main(string[] args)
     {
-        int repeatNumber = 1;
-        string userInput;
-        string choregraphy = "";
+        int repetitionNumber;
         string[] moves = new string[MAX_MOVES];
 
         Console.WriteLine("Crées ta chorégraphie (" + moves.Length + " pas max)\n");
@@ -13,35 +11,11 @@
         // Saisie de pas de danse par l'utilisateur
         SetAllMoves(moves);
 
-        bool isValid = false;
-
         // Saisie du nombre de répétition
-        while (!isValid)
-        {
-            Console.Write("Entres le nombre de répétition des pas : ");
-            userInput = Console.ReadLine();
-
-            isValid = int.TryParse(userInput, out repeatNumber);
-
-            if (!isValid)
-            {
-                Console.WriteLine($"Tu dois entrer un entier compris entre {Int32.MinValue} et {Int32.MaxValue} \n");
-            }
-        }
+        repetitionNumber = GetRepititionNumber();
 
         // Affichage de la chorégraphie
-        Console.WriteLine("\nTa chorégraphie");
-
-        for (int i = 0; i < moves.Length && moves[i] != "done"; i++)
-        {
-            choregraphy += moves[i] + " ";
-        }
-
-        // Répétition
-        for(int i = 0; i < repeatNumber; i++)
-        {
-            Console.WriteLine(choregraphy);
-        }
+        DisplayChoreography(moves, repetitionNumber);
     }
 
     public static bool ValidUserInputForMoves(string userInput)
@@ -88,6 +62,46 @@
 
             moves[index] = userInput;
             index++;
+        }
+    }
+
+    public static int GetRepititionNumber()
+    {
+        bool isValid = false;
+        int repetitionNumber = 0;
+        string userInput;
+
+        while (!isValid)
+        {
+            Console.Write("Entres le nombre de répétition des pas : ");
+            userInput = Console.ReadLine();
+
+            isValid = int.TryParse(userInput, out repetitionNumber);
+
+            if (!isValid)
+            {
+                Console.WriteLine($"Tu dois entrer un entier compris entre {Int32.MinValue} et {Int32.MaxValue} \n");
+            }
+        }
+
+        return repetitionNumber;
+    }
+
+    public static void DisplayChoreography(string[] moves, int repetitionNumber)
+    {
+        string choreography = "";
+
+        Console.WriteLine("\nTa chorégraphie");
+
+        for (int i = 0; i < moves.Length && moves[i] != "done"; i++)
+        {
+            choreography += moves[i] + " ";
+        }
+
+        // Répétition
+        for (int i = 0; i < repetitionNumber; i++)
+        {
+            Console.WriteLine(choreography);
         }
     }
 }
