@@ -1,10 +1,8 @@
-﻿using System;
-
-class MainClass
+﻿class MainClass
 {
     public static void Main(string[] args)
     {
-        bool isValid = false;
+        bool isNotLetterOrDigit;
         int i = 0; // Pour parcourir moves dans la boucle while
         int repeatNumber = 1;
         string userInput = "";
@@ -13,32 +11,42 @@ class MainClass
 
         Console.WriteLine("Crées ta chorégraphie (" + moves.Length + " pas max)\n");
 
-        while(userInput != "done" && i < moves.Length)
+        while(i < moves.Length && userInput != "done")
         {
-            Console.Write("Entres un pas de danse (entres \"done\" pour terminer) : ");
+            Console.Write($"Entres le pas n°{i} (ou \"done\" pour terminer) : ");
             // Saisie de l'utilisateur
             userInput = Console.ReadLine();
 
-            // Prototype de fonction pour contrôler les entrées de l'utilisateur
+            // * On vérifie si la valeur est vide ou composé uniquement de ' '
             if (userInput.Trim() != string.Empty)
             {
-                foreach (char splitUserInput in userInput)
+                isNotLetterOrDigit = false;
+
+                foreach (char splitUserInput in userInput.Trim())
                 {
+                    // ** On vérifie si chaque éléments de la chaîne n'est pas une lettre ou un chiffre
                     if (!(Char.IsLetterOrDigit(splitUserInput)))
                     {
-                        //throw NotLetterOrDigit
-                    }
-                    else
-                    {
-                        Console.WriteLine("Valide");
+                        Console.WriteLine("Le pas ne peut être composé que de lettre et de chiffre\n");
+                        isNotLetterOrDigit = true;
+                        break;
                     }
                 }
+
+                // ** Si c'est le cas on passe à l'itération suivante
+                if (isNotLetterOrDigit)
+                {
+                    continue;
+                }
             }
+            // * Si c'est le cas on passe à l'itération suivante
             else
             {
-                //trow EmptyString
+                Console.WriteLine("Le pas doit être composé d'au moins une lettre\n");
+                continue;
             }
 
+            // Si l'utilisateur n'a pas taper "done"
             if (userInput != "done")
             {
                 moves[i] = userInput;
@@ -47,7 +55,7 @@ class MainClass
         }
 
         // Saisie du nombre de répétition
-        Console.WriteLine("Entres le nombre de répétition des pas");
+        Console.Write("Entres le nombre de répétition des pas : ");
         repeatNumber = Convert.ToInt32(Console.ReadLine());
 
         // Affichage de la chorégraphie
