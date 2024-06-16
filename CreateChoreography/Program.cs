@@ -4,29 +4,50 @@ class MainClass
 {
     public static void Main(string[] args)
     {
+        bool isValid = false;
         int i = 0; // Pour parcourir moves dans la boucle while
         int repeatNumber = 1;
         string userInput = "";
         string choregraphy = "";
         string[] moves = new string[32];
 
-        // Saisie de l'utilisateur
-        Console.WriteLine("Crée ta chorégraphie (" + moves.Length + " pas max)\n");
+        Console.WriteLine("Crées ta chorégraphie (" + moves.Length + " pas max)\n");
 
         while(userInput != "done" && i < moves.Length)
         {
-            Console.WriteLine("Entrez un pas de dance (entrez \"done\" pour terminer)");
+            Console.Write("Entres un pas de danse (entres \"done\" pour terminer) : ");
+            // Saisie de l'utilisateur
             userInput = Console.ReadLine();
 
-            if(userInput != "done")
+            // Prototype de fonction pour contrôler les entrées de l'utilisateur
+            if (userInput.Trim() != string.Empty)
+            {
+                foreach (char splitUserInput in userInput)
+                {
+                    if (!(Char.IsLetterOrDigit(splitUserInput)))
+                    {
+                        //throw NotLetterOrDigit
+                    }
+                    else
+                    {
+                        Console.WriteLine("Valide");
+                    }
+                }
+            }
+            else
+            {
+                //trow EmptyString
+            }
+
+            if (userInput != "done")
             {
                 moves[i] = userInput;
+                i++;
             }
-            i++;
         }
 
         // Saisie du nombre de répétition
-        Console.WriteLine("Entrez le nombre de fois que les pas doivent être exécutés");
+        Console.WriteLine("Entres le nombre de répétition des pas");
         repeatNumber = Convert.ToInt32(Console.ReadLine());
 
         // Affichage de la chorégraphie
